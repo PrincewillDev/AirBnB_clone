@@ -1,0 +1,22 @@
+1, Understand what the project is and does
+
+2, Break the project down
+
+3, Get the roles of each parts 
+
+Things to study first:
+For base model:
+        uuid
+        datetime
+
+Guide lines:
+All your modules should have a documentation
+
+        Every Python module you create should include a docstring at the beginning, providing a high-level overview of the module's purpose and functionality.
+
+All your classes should have a documentation
+        Each class defined in your modules should have a docstring explaining the class's purpose and usage.
+
+All your functions (inside and outside a class) should have a documentation
+
+        Every function, whether it's part of a class or not, must include a docstring that describes what the function does, its parameters, and what it returns.
