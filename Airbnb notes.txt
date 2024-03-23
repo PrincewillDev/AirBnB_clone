@@ -20,3 +20,6 @@ All your classes should have a documentation
 All your functions (inside and outside a class) should have a documentation
 
         Every function, whether it's part of a class or not, must include a docstring that describes what the function does, its parameters, and what it returns.
+
+
+destroy BaseModel e7023572-13fe-460a-bb8e-a74068784883

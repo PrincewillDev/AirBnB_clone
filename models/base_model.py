@@ -1,8 +1,10 @@
+#!/usr/bin/python3
 """
 This module defines the base model for the AirBnB data.
 """
 import uuid
 import datetime
+import models
 class BaseModel:
     """
         This class defines the BaseModel class which is the parent class
@@ -17,10 +19,6 @@ class BaseModel:
 
             updated_at: This attribute is responsible for getting the
             current date and time an instance is created.
-        
-        Methods:
-            __str__: This methods should print
-            [<class name>] (<self.id>) <self.__dict__>
 
     """
     def __init__(self, *args, **kwargs):
@@ -43,6 +41,7 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.datetime.now()
             self.updated_at = datetime.datetime.now()
+            models.storage.new(self)
 
     def __str__(self):
         """
@@ -51,10 +50,18 @@ class BaseModel:
         return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
     
     def save(self):
-        
+        """
+        This method updates the public instance attribute
+        updated_at with the current datetime.
+        """
         self.updated_at = datetime.datetime.now()
+        models.storage.save()
     
     def to_dict(self):
+        """
+        This method returns a dictionary containing all
+        keys/values of __dict__ of the instance
+        """
         baseModel_dict = self.__dict__.copy()
         baseModel_dict["__class__"] = self.__class__.__name__
         baseModel_dict["created_at"] = self.created_at.isoformat()
