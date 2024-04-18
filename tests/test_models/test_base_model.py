@@ -44,8 +44,8 @@ class  TestBaseModel(unittest.TestCase):
     def test_str_method(self):
         """Testing the str method to ensure that instance of the class is returned correctly in str format"""
 
-        baseModelInstance = self.model1.__str__
-        self.assertTrue(baseModelInstance)
-
+        baseModelInstance_str = f"[BaseModel] ({self.model1.id}) {self.model1.__dict__}"
+        basemodel_str = str(self.model1)
+        self.assertMultiLineEqual(baseModelInstance_str, basemodel_str)
 if __name__ == "__main__":
     unittest.main()
