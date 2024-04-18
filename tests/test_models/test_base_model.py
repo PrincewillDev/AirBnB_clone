@@ -15,13 +15,17 @@ class  TestBaseModel(unittest.TestCase):
         self.model1 = BaseModel()
     
     def test_save_method(self):
-        """Check if created_at is equal to updated_at """
+        """Check if to updated_at is greater than created_at after calling the save method: This ensures that when an item is saved the time is updated """
+        self.model1.name= "Model"
+        self.model1.save()
         self.assertGreaterEqual(self.model1.updated_at, self.model1.created_at)
 
     def test_to_dict_method(self):
         """Testing the to_dict method: To ensure it returns data as dictionary"""
         baseModelDict = self.model1.to_dict()
-        self.assertIsInstance(baseModelDict, dict)
+        # Check that value of __class__ key is class name of object
+        self.assertEqual(baseModelDict['__class__'], 'BaseModel')
+        self.assertIsInstance(baseModelDict, dict)      
 
     def test_id_attribute(self):
         """Testing if the right uuid is generated"""
