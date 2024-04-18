@@ -16,8 +16,11 @@ class  TestBaseModel(unittest.TestCase):
     
     def test_save_method(self):
         """Check if to updated_at is greater than created_at after calling the save method: This ensures that when an item is saved the time is updated """
-        self.model1.name= "Model"
+        # self.assertEqual(self.model1.created_at, self.model1.updated_at)
+        self.model1.name = "Model"
         self.model1.save()
+
+        self.assertNotEqual(self.model1.created_at, self.model1.updated_at)
         self.assertGreaterEqual(self.model1.updated_at, self.model1.created_at)
 
     def test_to_dict_method(self):
