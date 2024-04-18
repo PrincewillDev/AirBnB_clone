@@ -1,3 +1,8 @@
+""" Unittest for the base models class
+
+    Class: TestBaseModel
+
+"""
 
 #import unittest module
 import unittest
@@ -19,14 +24,19 @@ class  TestBaseModel(unittest.TestCase):
         self.assertIsInstance(baseModelDict, dict)
 
     def test_id_attribute(self):
+        """Testing if the right uuid is generated"""
         baseModelId = self.model1.id
         self.assertTrue(baseModelId)
 
     def test_created_at_attribute(self):
+        """Testing if the right time is generated when an instance is created"""
+
         baseModelInstance = self.model1.created_at
         self.assertTrue(baseModelInstance)
     
     def test_str_method(self):
+        """Testing the str method to ensure that instance of the class is returned correctly in str format"""
+
         baseModelInstance = self.model1.__str__
         self.assertTrue(baseModelInstance)
 
