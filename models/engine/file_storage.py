@@ -8,7 +8,7 @@ class FileStorage:
     FileStorage class for serializing and deserializing objects to and from
     json file.
     """
-    __file_path = os.path.join("./models/engine" ,"file.json")
+    __file_path = os.path.join("./models/engine","file.json")
     __objects = {}
 
     def __init__(self):

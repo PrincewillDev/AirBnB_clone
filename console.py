@@ -98,10 +98,10 @@ class HBNBCommand(cmd.Cmd):
                 print(" ** instance id missing ** ")
             
             else:
-                my_dictionary = models.storage.all()
+                myData = models.storage.all()
                 key = args[0] + '.' + args[1]
-                if key in my_dictionary:
-                    del my_dictionary[key]
+                if key in myData:
+                    del myData[key]
                     models.storage.save()
                 else:
                     print(" ** No instance found ** ")
@@ -116,12 +116,50 @@ class HBNBCommand(cmd.Cmd):
             print(all_objects)
 
         elif args[0] == 'BaseModel':
-            my_dictionary = models.storage.all()
+            myData = models.storage.all()
             key = args[0]
             
         else:
             print("Testing might work")
 
+    def do_update(self, args):
+        """This method updates an instance based on class name and id"""
+        if not args:
+            print(" ** class name missing ** ")
+        args = args.split()
+        if len(args) > 0:
+            if args[0] != 'BaseModel':
+                print(" ** class doesn't exist ** ")
+            elif len(args) < 2:
+                print(" ** instance id missing ** ")
+            elif len(args) < 3:
+                print(" ** attribute name missing ** ")
+            elif len(args) < 4:
+                print(" ** value missing ** ")
+            else:
+                myData = models.storage.all()
+                key = args[0] + '.' + args[1]
+                attrname = args[2]
+                attrvalue = args[3]
+                if key not in myData:
+                    print(" ** no instance found ** ")
+                #Retrive the instance
+                instance = myData[key]
+                if attrname in {"id", "created_at", "updated-at"}:
+                    return
+                existingVal = getattr(instance, attrname, None)
+                if existingVal is None:
+                    print("")
+                if isinstance(existingVal, str):
+                    existingVal = str(attrvalue)
+                
+                elif isinstance(existingVal, int):
+                    existingVal = int(attrvalue)
+                elif isinstance(existingVal, int):
+                    existingVal = float(attrvalue)
+                
+                setattr(instance, attrname, attrvalue)
+                models.storage.save()
 
     def emptyline(self):
         "Do nothing when an emptyline is entered"   
