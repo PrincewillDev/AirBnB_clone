@@ -1,8 +1,23 @@
 #!/usr/bin/python3
 from models.base_model import BaseModel
+from models.user import User
+from models.amenity import Amenity
+from models.city import City
+from models.state import State
+from models.review import Review
+from models.place import Place
 import json
 import os
 
+class_list = {
+    "BaseModel" : BaseModel,
+    "User" : User,
+    "Amenity" : Amenity,
+    "City" : City,
+    "State" : State,
+    "Review" : Review,
+    "Place" : Place,
+}
 class FileStorage:
     """
     FileStorage class for serializing and deserializing objects to and from
@@ -50,6 +65,8 @@ class FileStorage:
                 with open(FileStorage.__file_path, 'r', encoding='utf-8') as file:
                     json_load = json.load(file)
                 for key, value in json_load.items():
-                    FileStorage.__objects[key] = BaseModel(**value)
+                    classname = value['__class__']
+                    obj = value
+                    FileStorage.__objects[key] = class_list[classname](**obj)
             except (FileNotFoundError, json.JSONDecodeError):
                 pass

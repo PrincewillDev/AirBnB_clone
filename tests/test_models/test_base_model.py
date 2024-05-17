@@ -38,18 +38,18 @@ class TestBaseModelClass(unittest.TestCase):
 
     def test_attr_id(self):
         """Tests the id attribute of instance"""
-        self.assertTrue(hasattr(self.model1, 'id'))
+        self.assertTrue(hasattr(self.model1, "id"))
         self.assertIsInstance(self.model1.id, str)
         self.assertNotEqual(self.model1.id, self.model2.id)
 
     def test_attr_created_at(self):
         """Tests the created_at attribute of instance"""
-        self.assertTrue(hasattr(self.model1, 'created_at'))
+        self.assertTrue(hasattr(self.model1, "created_at"))
         self.assertIsInstance(self.model1.created_at, datetime)
 
     def test_attr_updated_at(self):
         """Tests the updated_at attribute of instance"""
-        self.assertTrue(hasattr(self.model1, 'updated_at'))
+        self.assertTrue(hasattr(self.model1, "updated_at"))
         self.assertIsInstance(self.model1.updated_at, datetime)
 
     def test_method_str(self):
@@ -77,17 +77,17 @@ class TestBaseModelClass(unittest.TestCase):
         expected_dict = self.model1.to_dict()
 
         # Check that only instance attributes set are in expected_dict
-        self.assertNotIn('unset_attr', expected_dict)
+        self.assertNotIn("unset_attr", expected_dict)
 
         # Check that __class__ key and value exists
-        self.assertIn('__class__', expected_dict)
+        self.assertIn("__class__", expected_dict)
 
         # Check that value of __class__ key is class name of object
-        self.assertEqual(expected_dict['__class__'], 'BaseModel')
+        self.assertEqual(expected_dict["__class__"], "BaseModel")
 
         # Check that created_at and updated_at attr of dict are string objects
-        self.assertIsInstance(expected_dict['created_at'], str)
-        self.assertIsInstance(expected_dict['updated_at'], str)
+        self.assertIsInstance(expected_dict["created_at"], str)
+        self.assertIsInstance(expected_dict["updated_at"], str)
 
         # Check that created_at and updated_at attr of dict are in ISO format
         def is_ISO_format(datetime_str):
@@ -98,8 +98,8 @@ class TestBaseModelClass(unittest.TestCase):
             except ValueError:
                 return False
 
-        self.assertTrue(is_ISO_format(expected_dict['created_at']))
-        self.assertTrue(is_ISO_format(expected_dict['updated_at']))
+        self.assertTrue(is_ISO_format(expected_dict["created_at"]))
+        self.assertTrue(is_ISO_format(expected_dict["updated_at"]))
 
 
 if __name__ == "__main__":

@@ -9,9 +9,30 @@ Class:
 """
 import cmd
 from models.base_model import BaseModel
+from models.user import User
+from models.amenity import Amenity
+from models.city import City
+from models.state import State
+from models.review import Review
+from models.place import Place
 from custom_functions.to_pydic import jsonpydic
 import json
 import models
+from models.engine.file_storage import FileStorage
+
+
+class_list = {
+    "BaseModel" : BaseModel,
+    "User" : User,
+    "Amenity" : Amenity,
+    "City" : City,
+    "State" : State,
+    "Review" : Review,
+    "Place" : Place,
+}
+
+def searchClass(classname):
+    return classname in class_list
 
 class HBNBCommand(cmd.Cmd):
     """
@@ -48,40 +69,47 @@ class HBNBCommand(cmd.Cmd):
         triggered by pressing Ctrl-D.
         """
         return True
+    
         
     def do_create(self, args):
-        """Creates a new instance of BaseModel and print its id"""
+        """Creates a new instance and print its id"""
         if not args:
-            print(" ** Class name missing ** ")
-        elif args == "BaseModel":
-            new_instance = BaseModel()
-            new_instance.save()
-            print(new_instance.id)
-
+             print(" ** Class name missing ** ")
         else:
-            print(" ** class doesn't exist ** ")
-    
+            for key, value in class_list.items():
+                if args == key:
+                    new_instance = value()
+                    new_instance.save()
+                    print(new_instance.id)
+                
+        
+            if args not in class_list:
+                        print(" ** class doesn't exist ** ")
+
+        
     def do_show(self, args):
         """Prints the string representation of an instance
         based on the class name and id"""
+        
         if not args:
             print(" ** class name missing ** ")
         args = args.split()
         if len(args) > 0:
-            if args[0] != "BaseModel":
+            classname = args[0]
+            if not searchClass(classname):
                 print(" ** class doesn't exist ** ")
             elif len(args) < 2:
                 print(" ** instance id missing ** ")
             else:
-                data = jsonpydic()
-                instanceFound = False
-                for key, value in data.items():
-                    if value.get("id") == args[1]:
-                        instanceFound = True
-                        print(str(value))
-                        break
-                if instanceFound == False:
-                    print(" ** no instance found ** ")
+                data = models.storage.all()
+                instanceKey = f"{args[0]}.{args[1]}"
+                if instanceKey not in data:
+                    print("** no instance found **")
+                else:
+                    instance = data[instanceKey]
+                    print(instance)
+
+    
     
     def do_destroy(self, args):
         """Deletes an instance based on the class name and id
@@ -92,7 +120,8 @@ class HBNBCommand(cmd.Cmd):
         
         args = args.split()
         if len(args) > 0:
-            if args[0] != 'BaseModel':
+            classname = args[0]
+            if not searchClass(classname):
                 print(" ** class doesn't exist ** ")
             elif len(args) < 2:
                 print(" ** instance id missing ** ")
@@ -115,12 +144,17 @@ class HBNBCommand(cmd.Cmd):
             all_objects = models.storage.all()
             print(all_objects)
 
-        elif args[0] == 'BaseModel':
-            myData = models.storage.all()
-            key = args[0]
-            
         else:
-            print("Testing might work")
+            for key, value in class_list.items():
+                    if args[0] == key:
+                        myData = models.storage.all()
+                        break
+                    else:
+                        print("Not found")
+                        
+            
+        # else:
+        #     print("Testing might work")
 
     def do_update(self, args):
         """This method updates an instance based on class name and id"""
@@ -128,7 +162,8 @@ class HBNBCommand(cmd.Cmd):
             print(" ** class name missing ** ")
         args = args.split()
         if len(args) > 0:
-            if args[0] != 'BaseModel':
+            classname = args[0]
+            if not searchClass(classname):
                 print(" ** class doesn't exist ** ")
             elif len(args) < 2:
                 print(" ** instance id missing ** ")

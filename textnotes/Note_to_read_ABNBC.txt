@@ -9,7 +9,7 @@ That sounds like a great plan! Here's a summary of your next steps based on our 
    - Each command class should handle parsing arguments, interacting with the Data class (if needed), and delegating storage operations to the Storage Engine.
 3. **Storage Engine (JSON):**
    - Implement the Storage Engine component to handle reading/writing data from/to the JSON file.
-   - Use the `json` library in Python for data serialization and deserialization.
+   - Use the json library in Python for data serialization and deserialization.
 4. **Research and Development:**
    - As you progress, refer back to your project requirements to ensure you're building the functionalities needed.
    - Conduct further research on specific aspects like data structures, command class design, and error handling based on your needs.

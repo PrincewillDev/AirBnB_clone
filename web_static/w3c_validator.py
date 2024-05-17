@@ -11,17 +11,17 @@ Usage:
 
 Simple file:
 
-```
+
 ./w3c_validator.py index.html
-```
+
 
 Multiple files:
 
-```
-./w3c_validator.py index.html header.html styles/common.css
-```
 
-All errors are printed in `STDERR`
+./w3c_validator.py index.html header.html styles/common.css
+
+
+All errors are printed in STDERR
 
 Return:
 Exit status is the # of errors, 0 on Success

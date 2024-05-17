@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-This module defines the base model for the AirBnB data.
+This module defines the base model for the AirBnB data table.
 """
 import uuid
 import datetime

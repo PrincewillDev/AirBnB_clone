@@ -1,0 +1,64 @@
+Update FileStorage to manage correctly serialization and deserialization of all our new classes: Place, State, City, Amenity and Review
+
+Update your command interpreter (console.py) to allow those actions: show, create, destroy, update and all with all classes created previously.
+
+Enjoy your first console!
+
+
+class_list = {
+    "BaseModel" : BaseModel,
+    "User" : User,
+    "Amenity" : Amenity,
+    "City" : City,
+    "State" : State,
+    "Review" : Review,
+    "Place" : Place,
+}
+
+
+
+
+ elif args == "BaseModel":
+            new_instance = BaseModel()
+            new_instance.save()
+            print(new_instance.id)
+
+
+
+
+
+def do_create(self, args):
+        """Creates a new instance and print its id"""
+        if not args:
+            print(" ** Class name missing ** ")
+        elif args == "BaseModel":
+            new_instance = BaseModel()
+            new_instance.save()
+            print(new_instance.id)
+
+        else:
+            print(" ** class doesn't exist ** ")
+
+
+
+create Place
+
+
+classname = args
+        if args == searchClass(classname):
+            newInstance = searchClass(classname)
+            newInstance.save()
+            print(newInstance.id)
+
+
+ else:
+            for key, value in class_list.items():
+                if args == key:
+                    new_instance = value()
+                    new_instance.save()
+                    print(new_instance.id)
+
+
+  # elif args[0] == 'BaseModel':
+        #     myData = models.storage.all()
+        #     key = args[0]
