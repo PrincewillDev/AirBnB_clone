@@ -139,22 +139,24 @@ class HBNBCommand(cmd.Cmd):
         """Prints all string representation of all instances
         based or not on the class name. 
         """
-        args = args.split()
-        if not args:
-            all_objects = models.storage.all()
-            print(all_objects)
-
-        else:
-            for key, value in class_list.items():
-                    if args[0] == key:
-                        myData = models.storage.all()
-                        break
-                    else:
-                        print("Not found")
-                        
+        instance = []
+        all_objects = models.storage.all()
+        if args:
+            args = args.split()
+            class_name = args[0]
             
-        # else:
-        #     print("Testing might work")
+            if class_name not in class_list:
+                print("** class doesn't exist **")
+            
+            else:
+                for key, value in all_objects.items():
+                    if key.startswith(class_name + '.'):
+                        instance.append(str(value))
+                print(instance)
+        
+        else:
+            print(all_objects)            
+        
 
     def do_update(self, args):
         """This method updates an instance based on class name and id"""
@@ -199,7 +201,10 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         "Do nothing when an emptyline is entered"   
         pass
-
+    
+    def do_clear(self, arg):
+        """Clear the screen"""
+        print("\033[H\033[J") 
 
 
 if __name__ == '__main__':
