@@ -1,64 +1,45 @@
-Update FileStorage to manage correctly serialization and deserialization of all our new classes: Place, State, City, Amenity and Review
-
-Update your command interpreter (console.py) to allow those actions: show, create, destroy, update and all with all classes created previously.
-
-Enjoy your first console!
-
-
-class_list = {
-    "BaseModel" : BaseModel,
-    "User" : User,
-    "Amenity" : Amenity,
-    "City" : City,
-    "State" : State,
-    "Review" : Review,
-    "Place" : Place,
-}
-
-
+Here's the guidance you need:
+Concept: Dynamic class instance retrieval
+Goal: Design a system to retrieve all instances of a class dynamically using the class name
+Key ideas:
+Dynamic class identification: Identify the class from the user input (e.g., "User")
+Instance storage: Store instances of each class in a data structure (e.g., dictionary or list)
+Class-level method: Define a class-level method (.all()) to retrieve all instances of the class
+Instance retrieval: Retrieve all instances of the identified class from the storage
+Return instances: Return a list of retrieved instances
+Considerations:
+How to store instances of each class
+How to identify the class from the user input
+How to define a class-level method to retrieve instances
+How to retrieve instances from the storage
+How to format the returned instances
+Hint: Use a dictionary or other data structure to store instances of each class, and consider using Python's globals() function to access the class definition from the class name.
 
 
- elif args == "BaseModel":
-            new_instance = BaseModel()
-            new_instance.save()
-            print(new_instance.id)
+Let's say you have a class called "Car" and you want to retrieve all instances of this class. You can define a class-level method called "all()" that returns a list of all instances of the class.
+Here's an example:
+class Car:
+    instances = []
 
+    def __init__(self, name):
+        self.name = name
+        Car.instances.append(self)
 
+    @classmethod
+    def all(cls):
+        return cls.instances
 
+# Create some instances of the Car class
+car1 = Car("Toyota")
+car2 = Car("Honda")
+car3 = Car("Ford")
 
+# Retrieve all instances of the Car class
+all_cars = Car.all()
 
-def do_create(self, args):
-        """Creates a new instance and print its id"""
-        if not args:
-            print(" ** Class name missing ** ")
-        elif args == "BaseModel":
-            new_instance = BaseModel()
-            new_instance.save()
-            print(new_instance.id)
+# Print the names of all cars
+for car in all_cars:
+    print(car.name)
+In this example, the "all()" method returns a list of all instances of the Car class. You can then iterate over this list to access each instance and its attributes.
+Note that this is a simplified example and you may need to adapt it to your specific use case.
 
-        else:
-            print(" ** class doesn't exist ** ")
-
-
-
-create Place
-
-
-classname = args
-        if args == searchClass(classname):
-            newInstance = searchClass(classname)
-            newInstance.save()
-            print(newInstance.id)
-
-
- else:
-            for key, value in class_list.items():
-                if args == key:
-                    new_instance = value()
-                    new_instance.save()
-                    print(new_instance.id)
-
-
-  # elif args[0] == 'BaseModel':
-        #     myData = models.storage.all()
-        #     key = args[0]
