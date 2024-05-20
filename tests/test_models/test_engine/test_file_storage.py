@@ -7,6 +7,7 @@ from models.engine.file_storage import FileStorage
 from models.user import User
 from models.base_model import BaseModel
 import json
+from models.place import Place
 class TestFileStorage(unittest.TestCase):
     # Test class atrribute: __file_path, __objects.
     # Test all method
@@ -16,6 +17,8 @@ class TestFileStorage(unittest.TestCase):
     def setUp(self):
         self.file_storage = FileStorage()
         # self.file_path = "file.json"
+        
+        self.place = Place()
         
     def test_file_path(self):
         self.assertTrue(os.path.exists(self.file_storage._FileStorage__file_path))
@@ -62,3 +65,9 @@ class TestFileStorage(unittest.TestCase):
             jsonfile_content = jsonfile.read()
         
         self.assertIn(self.obj_key, jsonfile_content)
+        
+    def test_reload_method(self):
+        self.file_storage.reload()
+        self.obj_key = f"Place.{str(self.place.id)}"
+        
+        self.assertTrue(self.obj_key, self.file_storage._FileStorage__objects[self.obj_key])

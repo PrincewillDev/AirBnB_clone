@@ -70,5 +70,5 @@ class FileStorage:
                     classname = value['__class__']
                     obj = value
                     FileStorage.__objects[key] = class_list[classname](**obj)
-            except (FileNotFoundError, json.JSONDecodeError):
-                pass
+            except (FileNotFoundError, json.JSONDecodeError) as e:
+                raise Exception("An error occurred while processing the file") from e
