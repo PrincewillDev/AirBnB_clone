@@ -76,9 +76,9 @@ class TestStorageEngine(unittest.TestCase):
     def test_method_save(self):
         """Tests the 'save' method"""
         # Check that file is created on call to save()
-        # self.assertFalse(os.path.exists(self.file_path))
+        self.assertFalse(os.path.exists(self.file_path))
         self.storage.save()  # Saving BaseModel object created in setUp()...
-        # self.assertTrue(os.path.exists(self.file_path))
+        self.assertTrue(os.path.exists(self.file_path))
 
         # Check that saved object exists in file
         saved_obj_key = f"BaseModel.{self.test_obj.id}"
