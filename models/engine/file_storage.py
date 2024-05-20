@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+"""The FileStorage module is a class that handles the serialization and deserialization of objects to and from a JSON file. It is used to store and retrieve objects, ensuring data persistence.
+"""
 from models.base_model import BaseModel
 from models.user import User
 from models.amenity import Amenity
