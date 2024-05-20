@@ -70,7 +70,7 @@ class TestFileStorage(unittest.TestCase):
         self.file_storage.reload()
         
         allObj = self.file_storage.all()
-        obj_key = f"Place.{str(self.place.id)}"
+        obj_key = f"Place.{self.place.id}"
         
         for key in allObj.keys():
             if key == obj_key:
