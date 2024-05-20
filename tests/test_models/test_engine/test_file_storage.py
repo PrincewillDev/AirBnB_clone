@@ -18,8 +18,6 @@ class TestFileStorage(unittest.TestCase):
         self.file_storage = FileStorage()
         # self.file_path = "file.json"
         
-        self.place = Place()
-        
     def test_file_path(self):
         self.assertTrue(os.path.exists(self.file_storage._FileStorage__file_path))
         
@@ -67,6 +65,7 @@ class TestFileStorage(unittest.TestCase):
         self.assertIn(self.obj_key, jsonfile_content)
         
     def test_reload_method(self):
+        self.place = Place()
         self.file_storage.save()
         self.file_storage.reload()
         
