@@ -67,7 +67,17 @@ class TestFileStorage(unittest.TestCase):
         self.assertIn(self.obj_key, jsonfile_content)
         
     def test_reload_method(self):
+        self.file_storage.save()
         self.file_storage.reload()
-        self.obj_key = f"Place.{str(self.place.id)}"
         
-        self.assertTrue(self.obj_key, self.file_storage._FileStorage__objects[self.obj_key])
+        allObj = self.file_storage.all()
+        obj_key = f"Place.{str(self.place.id)}"
+        
+        for key in allObj.keys():
+            if key == obj_key:
+                reloaded_obj = allObj[obj_key]
+        
+        self.assertTrue(reloaded_obj, allObj)
+        self.assertEqual(reloaded_obj, allObj[obj_key])
+        self.assertEqual(self.place.created_at, reloaded_obj.created_at)
+        self.assertEqual(self.place.updated_at, reloaded_obj.updated_at)
