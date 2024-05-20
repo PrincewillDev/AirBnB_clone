@@ -15,7 +15,7 @@ class TestFileStorage(unittest.TestCase):
     # Test reload method
     def setUp(self):
         self.file_storage = FileStorage()
-        
+        # self.file_path = "file.json"
         
     def test_file_path(self):
         self.assertTrue(os.path.exists(self.file_storage._FileStorage__file_path))
@@ -55,15 +55,10 @@ class TestFileStorage(unittest.TestCase):
         
     def test_save_method(self):
         self.new_Object = BaseModel()
+        self.file_storage.save()
+        self.obj_key = f"BaseModel.{str(self.new_Object.id)}"
         
-        newObj_dict = {}
-        obj_key = f"{self.__class__.__name__}.{str(self.new_Object.id)}"
-        obj_value = self.new_Object.to_dict()
-        newObj_dict[obj_key] = obj_value
-        
-        with open(self.file_storage._FileStorage__file_path, 'w', encoding='utf-8') as jsonfile:
-            json.dump(newObj_dict, jsonfile)
-
         with open(self.file_storage._FileStorage__file_path, 'r') as jsonfile:
-            jsonfile_obj = jsonfile.read()
-            self.assertIn(json.dumps(newObj_dict), jsonfile_obj)
+            jsonfile_content = jsonfile.read()
+        
+        self.assertIn(self.obj_key, jsonfile_content)
