@@ -79,8 +79,8 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(self.place.id, reloaded_obj.id)
         self.assertEqual(self.place.created_at, reloaded_obj.created_at)
         self.assertEqual(self.place.updated_at, reloaded_obj.updated_at)
+        self.assertTrue(reloaded_obj, allObj)
         
-        # self.assertTrue(reloaded_obj, allObj)
         # self.assertEqual(reloaded_obj, allObj[key])
         # self.assertEqual(self.place.created_at, reloaded_obj.created_at)
         # self.assertEqual(self.place.updated_at, reloaded_obj.updated_at)
