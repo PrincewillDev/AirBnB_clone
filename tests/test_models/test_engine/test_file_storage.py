@@ -54,15 +54,15 @@ class TestFileStorage(unittest.TestCase):
         self.assertIn(obj_key, self.file_storage.all())
         self.assertIsInstance(__object_dict, dict)
         
-    # def test_save_method(self):
-    #     self.new_Object = BaseModel()
-    #     self.file_storage.save()
-    #     self.obj_key = f"BaseModel.{str(self.new_Object.id)}"
+    def test_save_method(self):
+        self.new_Object = BaseModel()
+        self.file_storage.save()
+        self.obj_key = f"BaseModel.{str(self.new_Object.id)}"
         
-    #     with open(self.file_storage._FileStorage__file_path, 'r') as jsonfile:
-    #         jsonfile_content = jsonfile.read()
+        with open(self.file_storage._FileStorage__file_path, 'r') as jsonfile:
+            jsonfile_content = jsonfile.read()
         
-    #     self.assertIn(self.obj_key, jsonfile_content)
+        self.assertIn(self.obj_key, jsonfile_content)
         
     def test_reload_method(self):
         self.place = Place()
