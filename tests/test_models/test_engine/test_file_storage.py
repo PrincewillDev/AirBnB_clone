@@ -1,105 +1,82 @@
-
 #!/usr/bin/python3
-"""This module contains test cases for the self.storage engine."""
-
-
+"""This module is uses unittest to test the file storage model / storage engine.
+"""
 import unittest
 import os
 from models.engine.file_storage import FileStorage
+from models.user import User
 from models.base_model import BaseModel
-
-
-class TestStorageEngine(unittest.TestCase):
-    """Tests the file_self.storage module of 'engine' package."""
-
+import json
+from models.place import Place
+class TestFileStorage(unittest.TestCase):
+    # Test class atrribute: __file_path, __objects.
+    # Test all method
+    # Test new method
+    # Test save method
+    # Test reload method
     def setUp(self):
-        """Sets up a FileStorage object for testing"""
-        self.file_path = "file.json"
-        # Delete storage file if exists
-        if os.path.exists(self.file_path):
-            os.remove(self.file_path)
-
-        # Create objects for testing
-        self.test_obj = BaseModel()
-        self.storage = FileStorage()
-
-    def tearDown(self):
-        """Disposes test objects"""
-        del self.test_obj
-        if os.path.exists(self.file_path):
-            os.remove(self.file_path)
-
-    def test_private_attr_file_path(self):
-        """Tests private class attribute file_path"""
-        # Check that storage file exists
-        self.storage.save()  # since save() creates file if it doesn't exist
-        self.assertTrue(os.path.exists(self.file_path))
-
-    def test_attr_objects(self):
-        """Tests the private class attribute objects"""
-        # Check that __objects attribute is a dict
-        objects = self.storage.all()  # since all() returns __objects
-        self.assertIsInstance(objects, dict)
-
-    def test_method_all(self):
-        """Tests the all() method"""
-        # Test that return value of all is a dictionary
-        all_objs = self.storage.all()
-        self.assertIsInstance(all_objs, dict)
-        initial_obj_count = len(all_objs)
-
-        # Tests that all() updates with each new object
-        new_obj = BaseModel()
-        all_objs = self.storage.all()
-        self.assertIn(new_obj, all_objs.values())
-        self.assertTrue(len(all_objs) == initial_obj_count + 1)
-
-        new_obj2 = BaseModel()
-        all_objs = self.storage.all()
-        self.assertIn(new_obj, all_objs.values())
-        self.assertTrue(len(all_objs) == initial_obj_count + 2)
-
-    def test_method_new(self):
-        """Tests the 'new' method"""
-        new_obj = BaseModel()
-
-        # Save new BaseModel object in __objects by calling new()
-        self.storage.new(new_obj)
-
-        # Test that __objects dict contains newly added object
-        new_obj_dict = {}
-        new_obj_key = f"{new_obj.__class__.__name__}.{new_obj.id}"
-        new_obj_value = new_obj.to_dict()
-        new_obj_dict[new_obj_key] = new_obj_value
-        self.assertIn(new_obj_key, self.storage.all())
-
-    def test_method_save(self):
-        """Tests the 'save' method"""
-        # Check that file is created on call to save()
-        self.assertFalse(os.path.exists(self.file_path))
-        self.storage.save()  # Saving BaseModel object created in setUp()...
-        self.assertTrue(os.path.exists(self.file_path))
-
-        # Check that saved object exists in file
-        saved_obj_key = f"BaseModel.{self.test_obj.id}"
-
-        with open(self.file_path, 'r') as file:
-            file_content = file.read()
-
-        self.assertIn(saved_obj_key, file_content)
-
-    def test_method_reload(self):
-        """Tests the 'reload' method"""
-        actual_obj = self.test_obj
-        self.storage.save()  # Saving actual_obj ...
-        self.storage.reload()
-
-        # Getting reloaded object
-        all_reloaded_objs = self.storage.all()
-        for key in all_reloaded_objs.keys():
-            if key == f"BaseModel.{actual_obj.id}":
-                reloaded_obj = all_reloaded_objs[key]
-
-        self.assertEqual(actual_obj.id, reloaded_obj.id)
-        self.assertEqual(actual_obj.created_at, reloaded_obj.created_at)
-        self.assertEqual(actual_obj.updated_at, reloaded_obj.updated_at)
+        self.file_storage = FileStorage()
+        # self.file_path = "file.json"
+        
+    def test_file_path(self):
+        self.assertTrue(os.path.exists(self.file_storage._FileStorage__file_path))
+        
+    def test_objects(self):
+        self.assertIsInstance(self.file_storage._FileStorage__objects, dict)
+        
+    def test_all_method(self):
+        allObjects = self.file_storage.all()
+        self.assertIsInstance(allObjects, dict)
+        Objectlength = len(allObjects)
+        
+        # Testing that all() updates with  new object
+        self.newObject = User()
+        self.assertIn(self.newObject, allObjects.values())
+        self.assertTrue(len(allObjects) == Objectlength + 1)
+        
+       
+        self.newObject2 = User()
+        self.assertIn(self.newObject2, allObjects.values())
+        self.assertTrue(len(allObjects) == Objectlength + 2)
+        
+        # Testing if the object returned by all() is same as the value in __objects 
+        self.assertEqual(self.file_storage.all(), self.file_storage._FileStorage__objects)
+    
+    def test_new_method(self):
+        self.newObj = BaseModel()
+        self.file_storage.new(self.newObj)
+        
+        __object_dict = {}
+        objValue = self.newObj.to_dict()
+        obj_key = '{}.{}'.format(self.newObj.__class__.__name__, str(self.newObj.id))
+        __object_dict[obj_key] = objValue
+        
+        self.assertIn(obj_key, self.file_storage.all())
+        self.assertIsInstance(__object_dict, dict)
+        
+    def test_save_method(self):
+        self.new_Object = BaseModel()
+        self.file_storage.save()
+        self.obj_key = f"BaseModel.{str(self.new_Object.id)}"
+        
+        with open(self.file_storage._FileStorage__file_path, 'r') as jsonfile:
+            jsonfile_content = jsonfile.read()
+        
+        self.assertIn(self.obj_key, jsonfile_content)
+        
+    def test_reload_method(self):
+        self.place = Place()
+        self.file_storage.save()
+        self.file_storage.reload()
+        
+        allObj = self.file_storage.all()
+        # obj_key = f"Place.{self.place.id}"
+        
+        for key in allObj.keys():
+            if key == f"Place.{self.place.id}":
+                reloaded_obj = allObj[key]
+        
+        self.assertEqual(self.place.id, reloaded_obj.id)
+        self.assertEqual(self.place.created_at, reloaded_obj.created_at)
+        self.assertEqual(self.place.updated_at, reloaded_obj.updated_at)
+        self.assertTrue(reloaded_obj, allObj)
