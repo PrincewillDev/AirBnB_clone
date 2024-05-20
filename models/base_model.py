@@ -59,6 +59,7 @@ class BaseModel:
         """
         self.updated_at = datetime.now()
         models.storage.save()
+        return "OK"
 
     def to_dict(self):
         """
