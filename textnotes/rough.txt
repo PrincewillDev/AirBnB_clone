@@ -43,3 +43,22 @@ for car in all_cars:
 In this example, the "all()" method returns a list of all instances of the Car class. You can then iterate over this list to access each instance and its attributes.
 Note that this is a simplified example and you may need to adapt it to your specific use case.
 
+
+
+
+
+def test_method_reload(self):
+        """Tests the 'reload' method"""
+        actual_obj = self.test_obj
+        self.storage.save()  # Saving actual_obj ...
+        self.storage.reload()
+
+        # Getting reloaded object
+        all_reloaded_objs = self.storage.all()
+        for key in all_reloaded_objs.keys():
+            if key == f"BaseModel.{actual_obj.id}":
+                reloaded_obj = all_reloaded_objs[key]
+
+        self.assertEqual(actual_obj.id, reloaded_obj.id)
+        self.assertEqual(actual_obj.created_at, reloaded_obj.created_at)
+        self.assertEqual(actual_obj.updated_at, reloaded_obj.updated_at)

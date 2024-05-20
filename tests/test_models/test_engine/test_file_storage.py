@@ -70,13 +70,26 @@ class TestFileStorage(unittest.TestCase):
         self.file_storage.reload()
         
         allObj = self.file_storage.all()
-        obj_key = f"Place.{self.place.id}"
+        # obj_key = f"Place.{self.place.id}"
         
         for key in allObj.keys():
-            if key == obj_key:
-                reloaded_obj = allObj[obj_key]
+            if key == f"Place.{self.place.id}":
+                reloaded_obj = allObj[key]
         
         self.assertTrue(reloaded_obj, allObj)
-        self.assertEqual(reloaded_obj, allObj[obj_key])
+        self.assertEqual(reloaded_obj, allObj[key])
         self.assertEqual(self.place.created_at, reloaded_obj.created_at)
         self.assertEqual(self.place.updated_at, reloaded_obj.updated_at)
+        
+        # self.file_storage.save()  # Saving actual_obj ...
+        # self.file_storage.reload()
+
+        # # Getting reloaded object
+        # all_reloaded_objs = self.file_storage.all()
+        # for key in all_reloaded_objs.keys():
+        #     if key == f"BaseModel.{self.place.id}":
+        #         reloaded_obj = all_reloaded_objs[key]
+
+        # self.assertEqual(self.place.id, reloaded_obj.id)
+        # self.assertEqual(self.place.created_at, reloaded_obj.created_at)
+        # self.assertEqual(self.place.updated_at, reloaded_obj.updated_at)
