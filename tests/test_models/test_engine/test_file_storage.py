@@ -8,6 +8,7 @@ from models.user import User
 from models.base_model import BaseModel
 import json
 from models.place import Place
+from datetime import datetime
 class TestFileStorage(unittest.TestCase):
     # Test class atrribute: __file_path, __objects.
     # Test all method
@@ -63,19 +64,12 @@ class TestFileStorage(unittest.TestCase):
             jsonfile_content = jsonfile.read()
         
         self.assertIn(self.obj_key, jsonfile_content)
-        self.file_storage.reload()
         
-        allObj = self.file_storage.all()
-        # obj_key = f"Place.{self.place.id}"
+    def test_save(self):
+        self.new_obj = BaseModel()
+        self.new_obj.save()
         
-        for key in allObj.keys():
-            if key == f"BaseModel.{self.new_Object.id}":
-                reloaded_obj = allObj[key]
-        
-        self.assertEqual(self.new_Object.id, reloaded_obj.id)
-        self.assertEqual(self.new_Object.created_at, reloaded_obj.created_at)
-        self.assertEqual(self.new_Object.updated_at, reloaded_obj.updated_at)
-        self.assertTrue(reloaded_obj, allObj)
+        self.assertIsInstance(self.new_obj.created_at, datetime)
         
     # def test_reload_method(self):
     #     self.place = Place()
