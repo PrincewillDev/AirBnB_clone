@@ -177,7 +177,8 @@ class HBNBCommand(cmd.Cmd):
                 if key not in myData:
                     print("** no instance found **")
                 # Retrive the instance
-                instance = myData[key]
+                else:
+                    instance = myData[key]
                 if attrname in {"id", "created_at", "updated-at"}:
                     return
                 existingVal = getattr(instance, attrname, None)
