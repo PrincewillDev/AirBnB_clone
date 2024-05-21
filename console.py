@@ -75,7 +75,7 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, args):
         """Creates a new instance and print its id"""
         if not args:
-            print( "** class name missing **")
+            print("** class name missing **")
         else:
             for key, value in class_list.items():
                 if args == key:
@@ -91,7 +91,7 @@ class HBNBCommand(cmd.Cmd):
         based on the class name and id"""
 
         if not args:
-            print( "** class name missing **")
+            print("** class name missing **")
         args = args.split()
         if len(args) > 0:
             classname = args[0]
@@ -113,7 +113,7 @@ class HBNBCommand(cmd.Cmd):
         (save the change into the JSON file).
         """
         if not args:
-            print( "** class name missing **")
+            print("** class name missing **")
 
         args = args.split()
         if len(args) > 0:
@@ -155,45 +155,45 @@ class HBNBCommand(cmd.Cmd):
             print(all_objects)
 
     def do_update(self, args):
-        """This method updates an instance based on class name and id"""
+        """This method updates an instance
+        based on class name and id"""
+
         if not args:
-            print( "** class name missing **")
+            print("** class name missing **")
+            return
         args = args.split()
-        if len(args) > 0:
-            classname = args[0]
-            if not searchClass(classname):
-                print("** class doesn't exist **")
-            elif len(args) < 2:
-                print("** instance id missing **")
-            elif len(args) < 3:
-                print("** attribute name missing **")
-            elif len(args) < 4:
-                print("** value missing **")
-            else:
-                myData = models.storage.all()
-                key = args[0] + "." + args[1]
-                attrname = args[2]
-                attrvalue = args[3]
-                if key not in myData:
-                    print("** no instance found **")
-                # Retrive the instance
-                else:
-                    instance = myData[key]
-                if attrname in {"id", "created_at", "updated-at"}:
-                    return
-                existingVal = getattr(instance, attrname, None)
-                if existingVal is None:
-                    print("")
-                if isinstance(existingVal, str):
-                    existingVal = str(attrvalue)
-
-                elif isinstance(existingVal, int):
-                    existingVal = int(attrvalue)
-                elif isinstance(existingVal, int):
-                    existingVal = float(attrvalue)
-
-                setattr(instance, attrname, attrvalue)
-                models.storage.save()
+        if len(args) < 4:
+            print("** missing arguments **")
+            return
+        classname = args[0]
+        if not searchClass(classname):
+            print("** class doesn't exist **")
+            return
+        key = args[0] + "." + args[1]
+        attrname = args[2]
+        attrvalue = args[3]
+        myData = models.storage.all()
+        if key not in myData:
+            print("** no instance found **")
+            return
+        instance = myData[key]
+        if attrname in {"id", "created_at", "updated_at"}:
+            print("** cannot update immutable attributes **")
+            return
+        existingVal = getattr(instance, attrname, None)
+        if existingVal is None:
+            print("** attribute doesn't exist **")
+            return
+        if isinstance(existingVal, str):
+            setattr(instance, attrname, str(attrvalue))
+        elif isinstance(existingVal, int):
+            setattr(instance, attrname, int(attrvalue))
+        elif isinstance(existingVal, float):
+            setattr(instance, attrname, float(attrvalue))
+        else:
+            print("** attribute value is not valid **")
+            return
+        models.storage.save()
 
     def emptyline(self):
         "Do nothing when an emptyline is entered"
