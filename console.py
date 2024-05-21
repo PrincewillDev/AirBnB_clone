@@ -75,7 +75,7 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, args):
         """Creates a new instance and print its id"""
         if not args:
-            print(" ** Class name missing ** ")
+            print( "** class name missing **")
         else:
             for key, value in class_list.items():
                 if args == key:
@@ -84,21 +84,21 @@ class HBNBCommand(cmd.Cmd):
                     print(new_instance.id)
 
             if args not in class_list:
-                print(" ** class doesn't exist ** ")
+                print("** class doesn't exist **")
 
     def do_show(self, args):
         """Prints the string representation of an instance
         based on the class name and id"""
 
         if not args:
-            print(" ** class name missing ** ")
+            print( "** class name missing **")
         args = args.split()
         if len(args) > 0:
             classname = args[0]
             if not searchClass(classname):
-                print(" ** class doesn't exist ** ")
+                print("** class doesn't exist **")
             elif len(args) < 2:
-                print(" ** instance id missing ** ")
+                print("** instance id missing **")
             else:
                 data = models.storage.all()
                 instanceKey = f"{args[0]}.{args[1]}"
@@ -113,15 +113,15 @@ class HBNBCommand(cmd.Cmd):
         (save the change into the JSON file).
         """
         if not args:
-            print(" ** class name missing ** ")
+            print( "** class name missing **")
 
         args = args.split()
         if len(args) > 0:
             classname = args[0]
             if not searchClass(classname):
-                print(" ** class doesn't exist ** ")
+                print("** class doesn't exist **")
             elif len(args) < 2:
-                print(" ** instance id missing ** ")
+                print("** instance id missing **")
 
             else:
                 myData = models.storage.all()
@@ -130,7 +130,7 @@ class HBNBCommand(cmd.Cmd):
                     del myData[key]
                     models.storage.save()
                 else:
-                    print(" ** No instance found ** ")
+                    print("** no instance found **")
 
     def do_all(self, args):
         """Prints all string representation of all instances
@@ -157,25 +157,25 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, args):
         """This method updates an instance based on class name and id"""
         if not args:
-            print(" ** class name missing ** ")
+            print( "** class name missing **")
         args = args.split()
         if len(args) > 0:
             classname = args[0]
             if not searchClass(classname):
-                print(" ** class doesn't exist ** ")
+                print("** class doesn't exist **")
             elif len(args) < 2:
-                print(" ** instance id missing ** ")
+                print("** instance id missing **")
             elif len(args) < 3:
-                print(" ** attribute name missing ** ")
+                print("** attribute name missing **")
             elif len(args) < 4:
-                print(" ** value missing ** ")
+                print("** value missing **")
             else:
                 myData = models.storage.all()
                 key = args[0] + "." + args[1]
                 attrname = args[2]
                 attrvalue = args[3]
                 if key not in myData:
-                    print(" ** no instance found ** ")
+                    print("** no instance found **")
                 # Retrive the instance
                 instance = myData[key]
                 if attrname in {"id", "created_at", "updated-at"}:
